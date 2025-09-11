@@ -3,8 +3,8 @@
 
 from machine import ADC, Pin
 
-# Assign your ADC pins here (change if your wiring is different)
-# Example: two light sensors connected to GP26 and GP27
+# Assign ADC pins here
+# Placeholder: two light sensors connected to GP26 and GP27
 sensor_pins = [26, 27]  
 
 # Create ADC objects for each sensor
