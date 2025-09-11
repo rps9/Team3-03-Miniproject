@@ -42,9 +42,9 @@ README.md # Project documentation
 3. Connect light sensors to ADC pins (default: GP26, GP27).
 4. Open Thonny and run:
 
-```python
-import main
-main.main()
+python
+/ import main
+/ main.main()
 
 5. Shine a flashlight on the sensors to trigger detection and audio.
 
