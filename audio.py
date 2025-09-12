@@ -10,13 +10,21 @@ buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 
 # Tone settings: (max_value, frequency, duty)
+# Tone settings: (max_value, frequency, duty)
 tone_levels = [
-    (1000,  1000, 50000),   # strongest beep
-    (4000,   800, 40000),   # very strong
-    (7000,   600, 30000),   # strong
-    (10000,  500, 20000),   # medium
-    (13000,  400, 15000),   # weak
+    (1000,   1000, 50000),  # strongest (kept)
+    (2000,    880, 46000),  # A5
+    (3000,    784, 44000),  # G5
+    (4000,    800, 40000),  # very strong (kept)
+    (5000,    659, 36000),  # E5
+    (6000,    587, 34000),  # D5
+    (7000,    600, 30000),  # strong (kept)
+    (8000,    523, 26000),  # C5
+    (9000,    500, 20000),  # medium (kept)
+    (10000,   440, 18000),  # A4
+    (11000,   400, 15000),  # weak (kept)
 ]
+
 
 # State tracking
 last_threshold = None
