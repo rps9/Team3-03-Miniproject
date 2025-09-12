@@ -11,8 +11,8 @@ def main():
 
     while True:
         # Step 1: Sense which sensors are activated
-        activated = sensors.read_sensors()
-        print("Activated sensors:", activated)
+        activated = sensors.read_sensor()
+        print("Activated sensor", activated)
 
         # Step 2: Store the sensor info
         storage.save(activated)
