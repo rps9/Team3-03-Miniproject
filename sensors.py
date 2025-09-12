@@ -9,7 +9,7 @@ adc_sensor = ADC(Pin(sensor_pin))
 
 def read_sensor():
     """
-    Reads the sensor value and returns the raw ADC value (0–65535).
+    Reads the sensor value and returns the raw ADC value (0-65535).
     Lower values mean more light (flashlight).
     """
     value = adc_sensor.read_u16()
