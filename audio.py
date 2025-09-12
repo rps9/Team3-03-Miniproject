@@ -6,7 +6,7 @@ import utime
 import storage
 
 # Pin for buzzer (change if wired differently)
-buzzer_pin = 15
+buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 
 # Map sensor indices to frequencies (Hz)

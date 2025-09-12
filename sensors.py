@@ -5,7 +5,7 @@ from machine import ADC, Pin
 
 # Assign ADC pins here
 # Placeholder: two light sensors connected to GP26 and GP27
-sensor_pins = [26, 27]  
+sensor_pins = [28]  
 
 # Create ADC objects for each sensor
 adc_sensors = [ADC(Pin(pin)) for pin in sensor_pins]
