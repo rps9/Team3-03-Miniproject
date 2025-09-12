@@ -75,6 +75,7 @@ def play_from_storage():
     # Trigger playback if high for N consecutive
     if high_count >= high_needed:
         values = storage.get_all()
+        values = values[::-1]
         for val in values:
             f, d, _ = get_threshold(val)
             play_tone(f, d, duration=300)
