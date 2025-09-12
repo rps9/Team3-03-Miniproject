@@ -10,19 +10,18 @@ buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 
 # Tone settings: (max_value, frequency, duty)
-# Frequency rises smoothly from 400 Hz (weak) up to 1000 Hz (strongest).
 tone_levels = [
-    (11000,  400, 15000),  # weakest
-    (10000,  500, 18000),
-    (9000,   600, 20000),
-    (8000,   700, 24000),
-    (7000,   800, 28000),
-    (6000,   850, 32000),
-    (5000,   900, 36000),
-    (4000,   940, 40000),
-    (3000,   970, 44000),
-    (2000,   985, 46000),
-    (1000,  1000, 50000),  # strongest
+    (1000,   1150, 50000),  # strongest (kept)
+    (2000,    1075, 46000),  # A5
+    (3000,    1000, 44000),  # G5
+    (4000,    925, 40000),  # very strong (kept)
+    (5000,    850, 36000),  # E5
+    (6000,    775, 34000),  # D5
+    (7000,    700, 30000),  # strong (kept)
+    (8000,    625, 26000),  # C5
+    (9000,    550, 20000),  # medium (kept)
+    (10000,   475, 18000),  # A4
+    (11000,   400, 15000),  # weak (kept)
 ]
 
 # State tracking
@@ -91,14 +90,14 @@ def play_from_storage():
 
     now = utime.ticks_ms()
 
-    # Case 1: new threshold → play immediately (ignore delay)
+    # Case 1: new threshold → play immediately
     if threshold != last_threshold:
         play_tone(freq, duty)
         last_threshold = threshold
         last_play_time = now
         return
 
-    # Case 2: same threshold → only play again after repeat_delay
+    # Case 2: same threshold → play only if enough time passed
     if utime.ticks_diff(now, last_play_time) >= repeat_delay:
         play_tone(freq, duty)
         last_play_time = now
