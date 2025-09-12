@@ -10,7 +10,6 @@ buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 
 # Tone settings: (max_value, frequency, duty)
-# Tone settings: (max_value, frequency, duty)
 tone_levels = [
     (1000,   1000, 50000),  # strongest (kept)
     (2000,    880, 46000),  # A5
@@ -25,37 +24,65 @@ tone_levels = [
     (11000,   400, 15000),  # weak (kept)
 ]
 
-
 # State tracking
 last_threshold = None
 last_play_time = 0
-repeat_delay = 1000  # milliseconds between repeated tones if same level
+repeat_delay = 1000  # ms
+high_count = 0       # consecutive "high" readings
+high_limit = 25000   # above this = "high"
+high_needed = 5      # number of consecutive highs to trigger playback
 
 
 def get_threshold(sensor_value):
-    """Return the matching (freq, duty) for a sensor value."""
+    """Return the matching (freq, duty, threshold) for a sensor value."""
     for threshold, f, d in tone_levels:
         if sensor_value < threshold:
             return f, d, threshold
     return 0, 0, None  # silent
 
 
+def play_tone(freq, duty, duration=200):
+    """Play a single short tone (duration in ms)."""
+    if freq > 0:
+        buzzer.freq(freq)
+        buzzer.duty_u16(duty)
+        utime.sleep_ms(duration)
+        buzzer.duty_u16(0)
+        utime.sleep_ms(50)  # small gap
+    else:
+        buzzer.duty_u16(0)
+
+
 def play_from_storage():
     """
-    Plays a tone immediately if sensor value changes to a new threshold.
-    If the value stays in the same threshold, plays the tone again only
-    if 1 second has passed.
+    - Normal mode: play tones based on current sensor reading.
+    - If sensor stays above `high_limit` for `high_needed` consecutive readings,
+      play back the last 20 stored values (latest → oldest).
     """
-    global last_threshold, last_play_time
+    global last_threshold, last_play_time, high_count
 
     sensor_value = storage.get_latest()
     if sensor_value is None:
         buzzer.duty_u16(0)
         return
 
-    freq, duty, threshold = get_threshold(sensor_value)
+    # Track high-value counts
+    if sensor_value > high_limit:
+        high_count += 1
+    else:
+        high_count = 0
 
-    # No tone if above all thresholds
+    # Trigger playback if high for N consecutive
+    if high_count >= high_needed:
+        values = storage.get_all()
+        for val in values:
+            f, d, _ = get_threshold(val)
+            play_tone(f, d, duration=300)
+        high_count = 0  # reset after playback
+        return
+
+    # --- Normal tone playback ---
+    freq, duty, threshold = get_threshold(sensor_value)
     if freq == 0:
         buzzer.duty_u16(0)
         last_threshold = None
@@ -65,16 +92,12 @@ def play_from_storage():
 
     # Case 1: new threshold → play immediately
     if threshold != last_threshold:
-        buzzer.freq(freq)
-        buzzer.duty_u16(duty)
+        play_tone(freq, duty)
         last_threshold = threshold
         last_play_time = now
         return
 
-    # Case 2: same threshold → only play again after repeat_delay
+    # Case 2: same threshold → play only if enough time passed
     if utime.ticks_diff(now, last_play_time) >= repeat_delay:
-        buzzer.freq(freq)
-        buzzer.duty_u16(duty)
+        play_tone(freq, duty)
         last_play_time = now
-    else:
-        buzzer.duty_u16(0)  # stay quiet until next cycle

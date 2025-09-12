@@ -1,21 +1,30 @@
 # storage.py
-# Stores the most recent sensor reading (only one sensor now)
+# Stores up to 20 most recent sensor readings
 
-latest_value = None
+buffer_size = 20
+storage_buffer = []
 
 def save(sensor_value):
     """
-    Save the most recent sensor value.
+    Save the most recent sensor value into a rolling buffer.
     """
-    global latest_value
-    latest_value = sensor_value
-    return latest_value
+    global storage_buffer
+    storage_buffer.append(sensor_value)
+    if len(storage_buffer) > buffer_size:
+        storage_buffer.pop(0)  # drop oldest
+    return storage_buffer
 
 def get_latest():
     """Return the most recent sensor value (or None if not set)."""
-    return latest_value
+    if not storage_buffer:
+        return None
+    return storage_buffer[-1]
+
+def get_all():
+    """Return all stored values (latest to oldest)."""
+    return storage_buffer[::-1]
 
 def clear():
-    """Clear stored value."""
-    global latest_value
-    latest_value = None
+    """Clear the storage buffer."""
+    global storage_buffer
+    storage_buffer = []
