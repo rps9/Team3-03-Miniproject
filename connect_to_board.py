@@ -3,7 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-FILE_NAMES = ["tests.py"]
+FILE_NAMES = ["main.py", "sensors.py", "storage.py", "audio.py", "tests.py"]
 
 files_to_copy = []
 for file_name in FILE_NAMES:
