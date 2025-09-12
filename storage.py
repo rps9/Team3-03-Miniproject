@@ -1,27 +1,21 @@
 # storage.py
-# Stores sensor activation history
+# Stores the most recent sensor reading (only one sensor now)
 
-# Simple in-memory storage (circular buffer style)
-buffer_size = 20   # keep last 20 activation events
-storage_buffer = []
+latest_value = None
 
-def save(activated_sensors):
+def save(sensor_value):
     """
-    Save a new sensor activation event.
-    activated_sensors: list of indices (e.g., [0, 2])
+    Save the most recent sensor value.
     """
-    global storage_buffer
-    if activated_sensors:   # only store if something was activated
-        storage_buffer.append(activated_sensors)
-        if len(storage_buffer) > buffer_size:
-            storage_buffer.pop(0)  # drop oldest
-    return storage_buffer
+    global latest_value
+    latest_value = sensor_value
+    return latest_value
 
-def get_all():
-    """Return all stored activation events."""
-    return storage_buffer
+def get_latest():
+    """Return the most recent sensor value (or None if not set)."""
+    return latest_value
 
 def clear():
-    """Clear the storage buffer."""
-    global storage_buffer
-    storage_buffer = []
+    """Clear stored value."""
+    global latest_value
+    latest_value = None

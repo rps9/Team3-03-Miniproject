@@ -1,5 +1,5 @@
 # audio.py
-# Converts stored sensor activations into tones on the buzzer
+# Converts sensor readings into tones on the buzzer
 
 from machine import Pin, PWM
 import utime
@@ -9,37 +9,41 @@ import storage
 buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 
-# Map sensor indices to frequencies (Hz)
-tone_map = {
-    0: 440,   # Sensor 0 → A4
-    1: 494,   # Sensor 1 → B4
-    2: 523,   # Sensor 2 → C5
-}
-
-# Duration for each note (seconds)
-note_duration = 0.3
-
-def play_tone(freq, duration=note_duration):
-    """Play a single tone on the buzzer."""
-    if freq <= 0:
-        buzzer.duty_u16(0)
-        return
-    buzzer.freq(freq)
-    buzzer.duty_u16(30000)  # volume (0–65535)
-    utime.sleep(duration)
-    buzzer.duty_u16(0)
-    utime.sleep(0.05)  # short pause
+# Tone settings: (max_value, frequency, duty)
+# Lower sensor values → more light → stronger beep
+tone_levels = [
+    (1000,  1000, 50000),   # strongest beep
+    (4000,   800, 40000),   # very strong
+    (7000,   600, 30000),   # strong
+    (10000,  500, 20000),   # medium
+    (13000,  400, 15000),   # weak
+]
 
 def play_from_storage():
     """
-    Plays tones based on the most recent stored activation.
-    If multiple sensors are activated, plays them in sequence.
+    Reads the latest sensor value from storage and plays the
+    corresponding tone. If above thresholds, stays silent.
     """
-    history = storage.get_all()
-    if not history:
+    sensor_value = storage.get_latest()
+    if sensor_value is None:
+        buzzer.duty_u16(0)
         return
-    
-    last_event = history[-1]  # get most recent activation
-    for sensor in last_event:
-        freq = tone_map.get(sensor, 0)
-        play_tone(freq)
+
+    # Default: silent
+    freq = 0
+    duty = 0
+
+    # Pick tone based on thresholds
+    for threshold, f, d in tone_levels:
+        if sensor_value < threshold:
+            freq = f
+            duty = d
+            break
+
+    if freq > 0:
+        buzzer.freq(freq)
+        buzzer.duty_u16(duty)
+        utime.sleep(1)      # play for 1 second
+        buzzer.duty_u16(0)  # stop
+    else:
+        buzzer.duty_u16(0)  # stay silent
