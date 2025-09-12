@@ -92,7 +92,8 @@ def play_from_storage():
 
     # Case 1: new threshold → play immediately
     if threshold != last_threshold:
-        play_tone(freq, duty)
+        buzzer.freq(freq)
+        buzzer.duty_u16(duty)
         last_threshold = threshold
         last_play_time = now
         return
