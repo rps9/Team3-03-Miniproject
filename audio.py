@@ -130,7 +130,7 @@ def test():
     storage.save(9000)   # medium tone
     play_from_storage() 
     utime.sleep(0.2)
-    
+
     print("Normal playback test ran (check buzzer output).")
 
     # --- high value test ---
@@ -147,4 +147,4 @@ def test():
     play_tone(1200, 30000, duration=300)  # mid beep
     play_tone(1600, 30000, duration=300)  # high beep
 
-    print("All audio.py tests completed ✅ (did you hear 3 beeps at the end?)")
+    print("All audio.py tests completed ✅ (if you hear 6 beeps then it worked)")
