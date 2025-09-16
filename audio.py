@@ -103,3 +103,39 @@ def play_from_storage():
     if utime.ticks_diff(now, last_play_time) >= repeat_delay:
         play_tone(freq, duty)
         last_play_time = now
+
+
+# ------------------ Unit Tests ------------------
+if __name__ == "__main__":
+    print("Running audio.py unit tests...")
+
+    # Test get_threshold boundaries
+    f, d, t = get_threshold(500)
+    assert f > 0 and t == 1000, "Value below 1000 should map to first tone"
+
+    f, d, t = get_threshold(10500)
+    assert f == 400 and t == 11000, "Value just below 11000 should match last tone"
+
+    f, d, t = get_threshold(20000)
+    assert f == 0 and t is None, "Above all thresholds should be silent"
+
+    print("get_threshold tests passed ✅")
+
+    # Test play_from_storage with normal values
+    storage.clear()
+    storage.save(500)    # should trigger lowest tone
+    storage.save(2000)   # mid tone
+    storage.save(9000)   # medium tone
+
+    play_from_storage()  # Should play tone for 9000
+    print("Normal playback test ran (check buzzer output).")
+
+    # Test high_value trigger
+    storage.clear()
+    for _ in range(6):  # exceed high_needed
+        storage.save(30000)
+        play_from_storage()
+
+    print("High-value playback sequence test ran (check buzzer output).")
+
+    print("All audio.py tests completed ✅")
