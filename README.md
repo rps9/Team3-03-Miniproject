@@ -10,7 +10,6 @@ This project uses a **Raspberry Pi Pico WH** with MicroPython to detect light ph
 - Freenove Pico Breakout Board (FNK0081)
 - Piezo Buzzer (SameSky CPT-3095C-300)
 - 10kΩ Resistor
-- 2x Tactile Switches
 - Light sensors (photoresistors / LDRs) connected to ADC pins
 
 ---
@@ -39,16 +38,27 @@ README.md # Project documentation
 
 1. Flash MicroPython onto the Pico.
 2. Copy all project files to the Pico (running connect_to_board.py does this for you in rshell) 
-3. Open Thonny and run:
+3. Once rshell is booted up and all of the files have been loaded onto the pico run:
 
-python
-/ import main
-/ main.main()
+```
+>> import main
+>> main.main()
+```
 
 4. Shine a flashlight on the sensors to trigger detection and audio.
+
+5. Cover the light sensor to have the device play back the last few notes it recorded.
 
 ---
 
 ## Configuration
-Change sensor pins in sensors.py (sensor_pins list).
-Adjust detection threshold in sensors.py (LIGHT_THRESHOLD).
+- Change sensor pins in sensors.py (sensor_pins list).
+- Adjust detection threshold in sensors.py (LIGHT_THRESHOLD).
+
+## Testing
+- Run `connect_to_board.py`
+- once it is done running type
+```
+>>> import tests
+>>> tests.run_all_tests()
+```
