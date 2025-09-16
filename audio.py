@@ -147,4 +147,4 @@ def test():
     play_tone(1200, 30000, duration=300)  # mid beep
     play_tone(1600, 30000, duration=300)  # high beep
 
-    print("All audio.py tests completed ✅ (did you hear 3 beeps at the end?)")
+    print("All audio.py tests completed ✅")
