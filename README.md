@@ -16,11 +16,13 @@ This project uses a **Raspberry Pi Pico WH** with MicroPython to detect light ph
 
 ## File Structure
 
-main.py # Main script (orchestrates sensing → storing → audio)
-sensors.py # Handles light sensor input
-storage.py # (to be added) Stores sensor activations
-audio.py # (to be added) Plays tones based on stored data
-README.md # Project documentation
+- `main.py`: Main script (orchestrates sensing → storing → audio)
+- `sensors.py`: Handles light sensor input
+- `storage.py`: Stores sensor activations
+- `audio.py`: Plays tones based on stored data
+- `tests.py`: imports all of the test functions so they can be easily ran. 
+- `connect_to_board.py`: detects and connects to the board (made for macos).
+- `README.md`: Project documentation
 
 
 ---
@@ -37,7 +39,7 @@ README.md # Project documentation
 ## Running the Code
 
 1. Flash MicroPython onto the Pico.
-2. Copy all project files to the Pico (running connect_to_board.py does this for you in rshell) 
+2. Copy all project files to the Pico (running connect_to_board.py does this for you in rshell). If this does not work for you, find the pico manually using `rshell -l`, then copy each file to the board running `rshell -p PORT_YOU_JUST_GOT cp FILE_NAME.py /pyboard/FILE_NAME.py` for each file you want to add.
 3. Once rshell is booted up and all of the files have been loaded onto the pico run:
 
 ```
@@ -62,3 +64,6 @@ README.md # Project documentation
 >>> import tests
 >>> tests.run_all_tests()
 ```
+
+## Demo
+
