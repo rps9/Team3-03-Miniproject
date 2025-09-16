@@ -122,10 +122,15 @@ def test():
     # --- play_from_storage tests ---
     storage.clear()
     storage.save(500)    # low tone
+    play_from_storage()  
+    utime.sleep(0.2)
     storage.save(2000)   # mid tone
+    play_from_storage() 
+    utime.sleep(0.2)
     storage.save(9000)   # medium tone
-
-    play_from_storage()  # should set buzzer to 9000Hz equivalent
+    play_from_storage() 
+    utime.sleep(0.2)
+    
     print("Normal playback test ran (check buzzer output).")
 
     # --- high value test ---
