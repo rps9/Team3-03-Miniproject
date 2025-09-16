@@ -38,15 +38,14 @@ README.md # Project documentation
 ## Running the Code
 
 1. Flash MicroPython onto the Pico.
-2. Copy all project files to the Pico (using Thonny or rshell).
-3. Connect light sensors to ADC pins (default: GP26, GP27).
-4. Open Thonny and run:
+2. Copy all project files to the Pico (running connect_to_board.py does this for you in rshell) 
+3. Open Thonny and run:
 
 python
 / import main
 / main.main()
 
-5. Shine a flashlight on the sensors to trigger detection and audio.
+4. Shine a flashlight on the sensors to trigger detection and audio.
 
 ---
 
