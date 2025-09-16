@@ -104,12 +104,10 @@ def play_from_storage():
         play_tone(freq, duty)
         last_play_time = now
 
-
-# ------------------ Unit Tests ------------------
 def test():
     print("Running audio.py unit tests...")
 
-    # Test get_threshold boundaries
+    # --- get_threshold tests ---
     f, d, t = get_threshold(500)
     assert f > 0 and t == 1000, "Value below 1000 should map to first tone"
 
@@ -121,21 +119,27 @@ def test():
 
     print("get_threshold tests passed ✅")
 
-    # Test play_from_storage with normal values
+    # --- play_from_storage tests ---
     storage.clear()
-    storage.save(500)    # should trigger lowest tone
+    storage.save(500)    # low tone
     storage.save(2000)   # mid tone
     storage.save(9000)   # medium tone
 
-    play_from_storage()  # Should play tone for 9000
+    play_from_storage()  # should set buzzer to 9000Hz equivalent
     print("Normal playback test ran (check buzzer output).")
 
-    # Test high_value trigger
+    # --- high value test ---
     storage.clear()
     for _ in range(6):  # exceed high_needed
         storage.save(30000)
         play_from_storage()
 
-    print("High-value playback sequence test ran (check buzzer output).")
+    print("High-value playback sequence test ran (expected mostly silent).")
 
-    print("All audio.py tests completed ✅")
+    # --- guaranteed audible sequence ---
+    print("Now playing test tones for buzzer check...")
+    play_tone(800, 30000, duration=300)   # low beep
+    play_tone(1200, 30000, duration=300)  # mid beep
+    play_tone(1600, 30000, duration=300)  # high beep
+
+    print("All audio.py tests completed ✅ (did you hear 3 beeps at the end?)")
