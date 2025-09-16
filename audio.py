@@ -5,7 +5,7 @@ from machine import Pin, PWM
 import utime
 import storage
 
-# Pin for buzzer (change if wired differently)
+# Pin for buzzer
 buzzer_pin = 16
 buzzer = PWM(Pin(buzzer_pin))
 

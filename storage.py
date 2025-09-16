@@ -4,6 +4,7 @@
 buffer_size = 20
 storage_buffer = []
 
+# Save and organize sensor values
 def save(sensor_value):
     """
     Save the most recent sensor value into a rolling buffer.
