@@ -3,6 +3,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+
+# List of files to copy to the Pico (local -> remote)
 FILE_NAMES = ["main.py", "sensors.py", "storage.py", "audio.py", "tests.py"]
 
 files_to_copy = []
@@ -13,6 +15,7 @@ for file_name in FILE_NAMES:
 def run(cmd: list[str], check=True, capture=True):
     """Run a command. If rshell is missing, print a friendly hint."""
     try:
+        # Ensure rshell is installed
         return subprocess.run(
             cmd,
             check=check,
@@ -20,11 +23,14 @@ def run(cmd: list[str], check=True, capture=True):
             capture_output=capture,
         )
     except FileNotFoundError:
+        # If rshell is missing, raise an error with a friendly hint
         if cmd and "rshell" in cmd[0]:
             sys.exit("ERROR: `rshell` not found. Install it with:\n  python3 -m pip install rshell")
         raise
 
+
 def find_pico_port() -> str:
+    # Find the Pico's serial port
     """Use `rshell -l` to find the Pico's serial port (prefer /dev/cu.* on macOS)."""
     res = run(["rshell", "-l"], check=False)
     out = (res.stdout or "") + (res.stderr or "")
@@ -45,8 +51,10 @@ def find_pico_port() -> str:
     print(f"Found Pico on: {port}")
     return port
 
+
 def copy_files(port: str):
     """Copy each (local -> remote) file in files_to_copy to /pyboard/ on the Pico."""
+    # Copy each file
     for item in files_to_copy:
         local = Path(item["local"])
         remote = item["remote"]
