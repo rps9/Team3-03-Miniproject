@@ -106,7 +106,7 @@ def play_from_storage():
 
 
 # ------------------ Unit Tests ------------------
-if __name__ == "__main__":
+def test():
     print("Running audio.py unit tests...")
 
     # Test get_threshold boundaries

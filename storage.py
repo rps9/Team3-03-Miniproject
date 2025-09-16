@@ -29,8 +29,7 @@ def clear():
     global storage_buffer
     storage_buffer = []
 
-# ------------------ Unit Tests ------------------
-if __name__ == "__main__":
+def test():
     print("Running storage.py unit tests...")
 
     clear()
@@ -54,3 +53,4 @@ if __name__ == "__main__":
 
     print("All storage.py tests passed ✅")
     print("Final buffer contents:", get_all())
+
