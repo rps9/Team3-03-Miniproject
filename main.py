@@ -2,13 +2,12 @@
 # Orchestrates sensor reading, data storage, and audio playback
 
 import utime
-import sensors      # handles light sensing
-import storage      # stores sensor activations
-import audio        # converts stored info to sound
+import sensors      
+import storage      
+import audio        
 
 def main():
-    print("Photon-to-Audio Device Starting...")
-
+    
     while True:
         # Step 1: Sense which sensors are activated
         activated = sensors.read_sensor()
