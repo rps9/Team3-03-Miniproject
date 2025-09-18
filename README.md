@@ -67,7 +67,9 @@ This project uses a **Raspberry Pi Pico WH** with MicroPython to detect light ph
 
 ## Demo
 
-![Demo Screenshot](media/demo.png)
+<p align="center">
+  <img src="media/demo.png" alt="Demo Screenshot" width="250"/>
+</p>
 
 ### [Watch the demo here](https://youtube.com/shorts/8Sd5Mo-0zUk)
 
