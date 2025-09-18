@@ -17,12 +17,14 @@ This project uses a **Raspberry Pi Pico WH** with MicroPython to detect light ph
 ## File Structure
 
 - `main.py`: Main script (orchestrates sensing → storing → audio)
-- `sensors.py`: Handles light sensor input
-- `storage.py`: Stores sensor activations
-- `audio.py`: Plays tones based on stored data
+- `sensors.py`: Handles light sensor input.
+- `storage.py`: Stores sensor activations.
+- `audio.py`: Plays tones based on stored data.
 - `tests.py`: imports all of the test functions so they can be easily ran. 
 - `connect_to_board.py`: detects and connects to the board (made for macos).
-- `README.md`: Project documentation
+- `README.md`: Project documentation.
+- media: holds all the media for this project .
+  - `demo.png`: picture of our project.
 
 
 ---
